@@ -1,0 +1,70 @@
+@use '../../styles/colors.scss';
+// @use '../../styles/fonts.scss';
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: relative;
+  max-width: 104.062rem;
+  height: 5.5rem;
+  left: 7.938rem;
+}
+
+.header-nav-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 3rem;
+  width: 40.25rem;
+}
+.header-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.header-nav-link {
+  color: white;
+  text-decoration: none;
+}
+
+.header-nav-underline {
+  height: .2rem;
+  margin-top: .5rem;
+  width: 50%;
+  background: linear-gradient(to right,  colors.$primary-color 50%, colors.$secondary-color 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+  transition: all .3s ease-out;
+}
+
+.header-nav-item:hover .header-nav-underline {
+  background-position: left bottom;
+
+}
+
+//TODO: The '.selected' class will need to be set in the Javascript
+.header-nav-item.selected .header-nav-underline {
+  background-position: left bottom;
+}
+.header-nav-item.selected a {
+  font-weight: 700;
+}
+
+.header-profile-container {
+  display: flex;
+  flex-direction: row;
+  width: 5rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 3rem;
+  cursor: pointer;
+
+}
+
+a {
+  font-family: 'Manrope';
+  font-weight: 300;
+}

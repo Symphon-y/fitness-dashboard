@@ -1,0 +1,23 @@
+@use '../../styles/colors.scss';
+
+.sidebar-nav-icon-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 2.25rem;
+  width: 100%;
+  background: linear-gradient(to right,  colors.$secondary-color 50%, rgba(255, 255, 255, 0) 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+  transition: all .3s ease-out;
+  cursor: pointer;
+}
+.sidebar-nav-icon-container:hover {
+  background-position: left bottom;
+}
+
+//TODO: The '.active' class will need to be set in the Javascript
+.sidebar-nav-icon-container.active {
+  background-position: left bottom;
+}

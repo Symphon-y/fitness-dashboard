@@ -1,0 +1,23 @@
+@use '../../styles/colors.scss';
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 7.938rem;
+  height: 100vh;
+  background-color: colors.$primary-color;
+}
+
+.sidebar-header-container {
+  margin-top: 2.419rem;
+  height: 11.5rem;
+}
+
+.sidebar-nav-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 20rem;
+}
