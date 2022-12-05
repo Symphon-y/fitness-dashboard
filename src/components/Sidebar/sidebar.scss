@@ -2,16 +2,10 @@
 
 .sidebar {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 7.938rem;
+  right: 0;
+  width: 25rem;
   height: 100vh;
-  background-color: colors.$primary-color;
-}
-
-.sidebar-header-container {
-  margin-top: 2.419rem;
-  height: 11.5rem;
+  // background-color: colors.$primary-color;
 }
 
 .sidebar-nav-container {

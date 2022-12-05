@@ -1,24 +1,42 @@
-import React, { ChangeEvent, SyntheticEvent, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { IconAlert, IconProfile } from '../../assets';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useNavigate, NavLink, useLocation } from 'react-router-dom';
+import { IconAlert, IconFlame, IconProfile } from '../../assets';
 import './header.scss';
 
 const Header = () => {
+  // Routing hook for navigation
+  const navigate = useNavigate();
+
+  // Routing hook to get current location
+  const location = useLocation();
   // Sets the selected nav link
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState(location.pathname);
 
   // Handles nav menu selection for styles
   const handleClick = (e: ChangeEvent) => {
     // Toggle Selection
-    selected === e.target.id ? setSelected('') : setSelected(e.target.id);
+    selected === e.target.id ? setSelected('') : setSelected('/' + e.target.id);
   };
+
+  // Checks current page and sets selected state
+  useEffect(() => {
+    setSelected(location.pathname);
+  }, [location]);
 
   return (
     <div className='header'>
       <ul className='header-nav-container'>
+        <div className='header-nav-item '>
+          <IconFlame
+            fill={'#EC7E4A'}
+            onClick={() => {
+              navigate('/');
+            }}
+          />
+        </div>
         <li
           className={
-            selected === 'exercise'
+            selected === '/exercise'
               ? 'header-nav-item selected'
               : 'header-nav-item'
           }>
@@ -26,14 +44,14 @@ const Header = () => {
             id='exercise'
             onClick={(e: any) => handleClick(e)}
             className='header-nav-link'
-            to='/'>
+            to='/exercise'>
             Exercise
           </NavLink>
           <div className='header-nav-underline' />
         </li>
         <li
           className={
-            selected === 'food-plan'
+            selected === '/food-plan'
               ? 'header-nav-item selected'
               : 'header-nav-item'
           }>
@@ -48,7 +66,7 @@ const Header = () => {
         </li>
         <li
           className={
-            selected === 'daily-habits'
+            selected === '/daily-habits'
               ? 'header-nav-item selected'
               : 'header-nav-item'
           }>
@@ -63,7 +81,7 @@ const Header = () => {
         </li>
         <li
           className={
-            selected === 'water-intake'
+            selected === '/water-intake'
               ? 'header-nav-item selected'
               : 'header-nav-item'
           }>

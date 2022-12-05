@@ -8,17 +8,20 @@
   position: relative;
   max-width: 104.062rem;
   height: 5.5rem;
-  left: 7.938rem;
+  // left: 7.938rem;
 }
 
 .header-nav-container {
   display: flex;
+  cursor: pointer;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   margin-left: 3rem;
   width: 40.25rem;
 }
+
+
 .header-nav-item {
   display: flex;
   flex-direction: column;

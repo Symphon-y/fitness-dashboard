@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import './App.scss';
@@ -7,10 +8,13 @@ function App() {
   return (
     <div className='App'>
       <Header />
+
       <div className='main-content'>
-        <Outlet />
+        <AnimatePresence>
+          <Outlet />
+        </AnimatePresence>
+        <Sidebar />
       </div>
-      <Sidebar />
     </div>
   );
 }
