@@ -18,16 +18,17 @@ const ProgressBars = ({ title, data }: any) => {
     let total = 0;
     // Get total
     // iterate over values and add them to total variable
-    data[title].values.forEach((value: number) => {
+    data.values.forEach((value: number) => {
       total += value;
     });
     // return map over values
-    return data[title].values.map((value: any, index: any) => {
+    return data.values.map((value: any, index: any) => {
       const width = (value / total) * 100;
-      const barAnimation = {
+      const widthRounded = Math.round(width * 10) / 10;
+      const barbgAnimation = {
         initial: { width: 0 },
         animate: {
-          width: width,
+          width: '100%',
           transition: { type: 'spring', stiffness: 100, duration: 1 },
         },
         exit: {
@@ -35,26 +36,42 @@ const ProgressBars = ({ title, data }: any) => {
           transition: { type: 'spring', stiffness: 100, duration: 1 },
         },
       };
+      const barAnimation = {
+        initial: { width: 0 },
+        animate: {
+          width: `${width}%`,
+          transition: {
+            type: 'spring',
+            delay: 0.25,
+            stiffness: 100,
+            duration: 1,
+          },
+        },
+        exit: {
+          x: 0,
+          transition: { type: 'spring', stiffness: 100, duration: 1 },
+        },
+      };
       return (
-        <div className='prob-bar-container'>
-          <div>{data[title].labels[index]}</div>
-          <div
+        <div className='prog-bar-container'>
+          <motion.div {...barbgAnimation} className='prog-bar-label-container'>
+            <span className='prog-bar-label'>{data.labels[index]}</span>
+            <span className='prog-bar-percentage'>{`${widthRounded}%`}</span>
+          </motion.div>
+          <motion.div
+            {...barbgAnimation}
             className='prog-bar-bg'
             style={{
-              backgroundColor: 'blue',
-              width: '100%',
-              height: '1rem',
+              backgroundColor: '#D9E5F6',
+              height: '1.5rem',
             }}>
             <motion.div
               {...barAnimation}
               style={{
-                backgroundColor: 'red',
-                width: `${width}%`,
-                height: '1rem',
-              }}>
-              {`${width}%`}
-            </motion.div>
-          </div>
+                backgroundColor: '#2B6245',
+                height: '1.5rem',
+              }}></motion.div>
+          </motion.div>
         </div>
       );
     });

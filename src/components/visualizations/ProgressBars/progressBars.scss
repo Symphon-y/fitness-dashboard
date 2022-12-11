@@ -1,0 +1,29 @@
+.prog-bar-main {
+  width: 8.625rem;
+}
+
+.prog-bar-label-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.prog-bar-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  font-size: .9rem;
+  font-weight: 400;
+  color: white;
+}
+.prog-bar-label {
+  font-size: 0.75rem;
+  font-weight: 200;
+  color: white;
+}
+
+.prog-bar-percentage {
+  font-size: 0.75rem;
+  font-weight: 200;
+  color: white;
+}
