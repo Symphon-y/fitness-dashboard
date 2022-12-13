@@ -11,14 +11,13 @@ const Counter = ({ starting, ending, ...props }: CounterProps) => {
       duration: 1,
       onUpdate(value) {
         const newValue = Number(value.toFixed(0));
-        newValue.toLocaleString();
         // console.log(newValue);
         setValue(newValue);
       },
     });
     return () => controls.stop();
   }, [starting, ending]);
-  return <div className='counter-container'>{value.toString()}</div>;
+  return <div className='counter-container'>{value.toLocaleString()}</div>;
 };
 
 export default Counter;
