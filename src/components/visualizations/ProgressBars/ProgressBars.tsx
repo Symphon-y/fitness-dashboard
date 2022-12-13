@@ -2,15 +2,7 @@ import { motion } from 'framer-motion';
 import React from 'react';
 import './progressBars.scss';
 
-const tempData = {
-  'Leader Board': {
-    values: [12, 20, 35, 88, 75],
-    labels: ['Ash', 'Jake', 'Bill', 'Travis', 'Mike'],
-  },
-};
-
 const ProgressBars = ({ title, data }: any) => {
-  data = data || tempData;
   const titleArray = Object.keys(data);
   title = title || titleArray[0];
 
@@ -24,7 +16,9 @@ const ProgressBars = ({ title, data }: any) => {
     // return map over values
     return data.values.map((value: any, index: any) => {
       const width = (value / total) * 100;
+      // Round to one decimal point
       const widthRounded = Math.round(width * 10) / 10;
+      // Animate the bar background on load
       const barbgAnimation = {
         initial: { width: 0 },
         animate: {
@@ -36,6 +30,8 @@ const ProgressBars = ({ title, data }: any) => {
           transition: { type: 'spring', stiffness: 100, duration: 1 },
         },
       };
+
+      // Animate the data bar on load
       const barAnimation = {
         initial: { width: 0 },
         animate: {
@@ -52,6 +48,7 @@ const ProgressBars = ({ title, data }: any) => {
           transition: { type: 'spring', stiffness: 100, duration: 1 },
         },
       };
+
       return (
         <div className='prog-bar-container'>
           <motion.div {...barbgAnimation} className='prog-bar-label-container'>
@@ -75,9 +72,6 @@ const ProgressBars = ({ title, data }: any) => {
         </div>
       );
     });
-    // get percentage based on current value
-    // return label at current index
-    // return bar with width equal to percentage inside div of 100% width
   };
 
   return (

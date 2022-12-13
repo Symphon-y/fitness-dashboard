@@ -1,55 +1,19 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { contentFade } from '../../animations/index';
-import { ProgressBars } from '../visualizations';
-
+import { Counter, ProgressBars } from '../visualizations';
+import { barChartTestData, testDataObjectInterface } from '../../assets';
 import './exercise.scss';
 
-interface testDataInterface {
-  [key: string]: { values: number[]; labels: string[] };
-}
-
-interface testDataObjectInterface {
-  values: number[];
-  labels: string[];
-}
-
 const Exercise = () => {
-  const testData: { [key: string]: {} } = {
-    'Test One': {
-      values: [12, 20, 35, 88, 75],
-      labels: ['Ash', 'Jake', 'Bill', 'Travis', 'Mike'],
-    },
-    'Test Two': {
-      values: [100, 50, 75, 100, 25],
-      labels: ['One', 'Two', 'Three', 'Four', 'Five'],
-    },
-    'Test Three': {
-      values: [1, 3, 2, 3, 5],
-      labels: ['A', 'B', 'C', 'D', 'E'],
-    },
-    'Test Four': {
-      values: [10, 34, 23, 35, 55],
-      labels: ['Another', 'One', 'DJ', 'Khalid', 'WEDABEST'],
-    },
-    'Test Five': {
-      values: [1, 3, 2, 3, 5],
-      labels: ['A', 'B', 'C', 'D', 'E'],
-    },
-    'Test Size': {
-      values: [1, 3, 2, 3, 5],
-      labels: ['A', 'B', 'C', 'D', 'E'],
-    },
-  } as testDataInterface;
-
   const barGen = () => {
     let titleArray: string[];
     titleArray = [];
     let objArrayy: { values: number[]; labels: string[] }[];
     objArrayy = [];
 
-    for (var key in testData) {
-      objArrayy.push(testData[key] as testDataObjectInterface);
+    for (var key in barChartTestData) {
+      objArrayy.push(barChartTestData[key] as testDataObjectInterface);
       titleArray.push(key);
     }
 
@@ -75,6 +39,7 @@ const Exercise = () => {
         }}>
         {barGen()}
       </div>
+      <Counter starting={0} ending={2000} />
     </motion.div>
   );
 };
