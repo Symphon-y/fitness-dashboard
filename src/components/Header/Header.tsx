@@ -94,6 +94,36 @@ const Header = () => {
           </NavLink>
           <div className='header-nav-underline' />
         </li>
+        <li
+          className={
+            selected === '/signup'
+              ? 'header-nav-item selected'
+              : 'header-nav-item'
+          }>
+          <NavLink
+            id='signup'
+            onClick={(e: any) => handleClick(e)}
+            className='header-nav-link'
+            to='/signup'>
+            Sign Up
+          </NavLink>
+          <div className='header-nav-underline' />
+        </li>
+        <li
+          className={
+            selected === '/login'
+              ? 'header-nav-item selected'
+              : 'header-nav-item'
+          }>
+          <NavLink
+            id='login'
+            onClick={(e: any) => handleClick(e)}
+            className='header-nav-link'
+            to='/login'>
+            Log In
+          </NavLink>
+          <div className='header-nav-underline' />
+        </li>
       </ul>
       <div className='header-profile-container'>
         <IconAlert />

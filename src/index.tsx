@@ -4,13 +4,16 @@ import reportWebVitals from './reportWebVitals';
 import { RouterProvider } from 'react-router-dom';
 import { routes } from './routes/routes';
 import './index.scss';
+import { UserContextProvider } from './context';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={routes} />
+    <UserContextProvider>
+      <RouterProvider router={routes} />
+    </UserContextProvider>
   </React.StrictMode>
 );
 
