@@ -32,7 +32,7 @@ CREATE TABLE lift (
   compound_or_isolation VARCHAR(500),
 );
 
--- lift_entry --
+-- Lift Entry --
 CREATE TABLE lift_entry (
   id SERIAL PRIMARY KEY,
   lift_id INTEGER NOT NULL,
