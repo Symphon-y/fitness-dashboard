@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './authentication.scss';
 
 import { initializeApp } from 'firebase/app';
@@ -9,15 +9,16 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 const SignUp = () => {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const { setUser } = useUserContext();
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { user, setUser } = useUserContext();
   const handleSubmit = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const userInfo = userCredential.user;
-        setUser({ id: userInfo.uid, name: 'Logged In!' });
+        setUser({ ...user, id: userInfo.uid });
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -28,23 +29,45 @@ const SignUp = () => {
   };
 
   return (
-    <form
-      onSubmit={(e) => {
-        handleSubmit();
-        e.preventDefault();
-      }}>
-      <input
-        type='email'
-        onChange={(e) => setEmail(e.target.value)}
-        className='signup-email'
-      />
-      <input
-        type='password'
-        onChange={(e) => setPassword(e.target.value)}
-        className='signup-password'
-      />
-      <button type='submit'>Submit</button>
-    </form>
+    <div className='auth-form-container'>
+      <div className='auth-form-header'>Create an Account!</div>
+      <form
+        className='auth-form-main-content'
+        onSubmit={(e) => {
+          handleSubmit();
+          e.preventDefault();
+        }}>
+        <div className='auth-input-container'>
+          <div className='auth-input-label'>Username</div>
+          <input
+            className='auth-form-input'
+            type='text'
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div className='auth-input-container'>
+          <div className='auth-input-label'>Email</div>
+          <input
+            className='auth-form-input'
+            type='email'
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className='auth-input-container'>
+          <div className='auth-input-label'>Password</div>
+          <input
+            className='auth-form-input'
+            type='password'
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div className='auth-form-footer'>
+          <button className='auth-form-btn' type='submit'>
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

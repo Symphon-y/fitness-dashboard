@@ -19,7 +19,7 @@ export interface UserContextProviderProps {
 export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [user, setUser] = React.useState({
     id: '0',
-    name: 'unknown user',
+    username: 'unknown user',
   });
 
   const value = useMemo(

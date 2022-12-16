@@ -8,7 +8,7 @@ import { useUserContext } from '../../context';
 
 const Exercise = () => {
   const user = useUserContext();
-  const userName = user.user.name || 'you should log in!';
+  const userName = user.user.username || 'you should log in!';
   const userId = user.user.id || 'no user id found';
   return (
     <motion.div {...contentFade} className='excersize-container'>

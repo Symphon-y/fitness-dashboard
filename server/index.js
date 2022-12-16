@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const compression = require('compression');
-const axios = require('axios');
 const path = require('path');
 const db = require('./db');
 const app = express();
@@ -21,14 +20,28 @@ app.use((req, res, next) => {
   next();
 });
 
+// Test Route
 app.get('/test', (req, res, next) => {
-  console.log('get /');
   db.query('SELECT * FROM lift_entry', (err, result) => {
     if (err) {
       return next(err);
     }
     res.send(result.rows);
   });
+});
+
+// Get User by Id
+app.get('/:id', (req, res, next) => {
+  db.query(
+    'SELECT * FROM user_table WHERE LOWER(uid)=LOWER($1)',
+    [req.params.id],
+    (err, result) => {
+      if (err) {
+        return next(err);
+      }
+      res.send(JSON.stringify(result.rows[0]));
+    }
+  );
 });
 
 // Starts Server on Specified Port
