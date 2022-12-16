@@ -5,22 +5,22 @@ CREATE DATABASE fitness_dashboard;
 
 
 -- User --
-CREATE TABLE user (
+CREATE TABLE user_table (
   id SERIAL PRIMARY KEY,
-  uid VARCHAR(500),
+  uid VARCHAR(500) UNIQUE,
   created_at TIMESTAMP,
-  username VARCHAR(500),
-  login BOOLEAN DEFAULT FALSE
+  username VARCHAR(500)
 );
 
 -- Body Composition --
 CREATE TABLE body_composition (
   id SERIAL PRIMARY KEY,
+  user_id VARCHAR(500),
   created_at TIMESTAMP,
   weight VARCHAR(10),
-  goalweight VARCHAR(10),
-  bodyfat VARCHAR(10),
-  FOREIGN KEY (user_id) REFERENCES user (id)
+  goal_weight VARCHAR(10),
+  body_fat VARCHAR(10),
+  FOREIGN KEY (user_id) REFERENCES user_table (uid)
 );
 
 -- Lift --
@@ -29,13 +29,14 @@ CREATE TABLE lift (
   lift_name VARCHAR(500),
   upper_or_lower VARCHAR(500),
   push_or_pull VARCHAR(500),
-  compound_or_isolation VARCHAR(500),
+  compound_or_isolation VARCHAR(500)
 );
 
 -- Lift Entry --
 CREATE TABLE lift_entry (
   id SERIAL PRIMARY KEY,
   lift_id INTEGER NOT NULL,
+  user_id VARCHAR(500),
   created_at TIMESTAMP,
   wu_weight_1 VARCHAR(500),
   wu_reps_1 VARCHAR(500),
@@ -49,18 +50,17 @@ CREATE TABLE lift_entry (
   ws_reps_2 VARCHAR(500),
   ws_weight_3 VARCHAR(500),
   ws_reps_3 VARCHAR(500),
-  FOREIGN KEY (lift_id) REFERENCES lift (id)
+  FOREIGN KEY (lift_id) REFERENCES lift (id),
+  FOREIGN KEY (user_id) REFERENCES user_table (uid)
 );
 
 
 CREATE INDEX user_index
-ON user (id, uid);
+ON user_table (id, uid);
 
 CREATE INDEX body_composition_index
 ON body_composition (id, user_id);
 
 CREATE INDEX lift_index
-ON lift (id, user_id);
+ON lift (id);
 
-CREATE INDEX lift_entry_index
-ON lift_entry (id, lift_id);

@@ -1,0 +1,7 @@
+id,lift_name,upper_or_lower,push_or_pull,compound_or_isolation
+1,Bench Press,upper,push,compound
+2,Squat,lower,push,compound
+3,Deadlift,lower,pull,compound
+4,Overhead Press,upper,push,compound
+5,Barbell Row,upper,pull,compound
+6,Pull-ups,upper,pull,compound

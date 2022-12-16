@@ -3,8 +3,9 @@ const express = require('express');
 const compression = require('compression');
 const axios = require('axios');
 const path = require('path');
+const db = require('./db');
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 // Compression
 app.use(compression());
@@ -20,30 +21,19 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes
-// Get Requests
-
-app.get('/', (req, res) => {
-  let endpointUrl = '';
-
-  var config = {
-    method: 'get',
-    url: endpointUrl,
-    headers: {
-      contentType: 'application/json',
-    },
-  };
-
-  axios(config)
-    .then(function (response) {
-      res.send(JSON.stringify(response.data));
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+app.get('/test', (req, res, next) => {
+  console.log('get /');
+  db.query('SELECT * FROM lift_entry', (err, result) => {
+    if (err) {
+      return next(err);
+    }
+    res.send(result.rows);
+  });
 });
 
 // Starts Server on Specified Port
 app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+  console.log(`Serving Build and Listening on port ${port}`);
 });
+
+module.exports = app;
