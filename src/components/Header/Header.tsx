@@ -59,8 +59,8 @@ const Header = () => {
             id='food-plan'
             onClick={(e: any) => handleClick(e)}
             className='header-nav-link'
-            to='/'>
-            Food Plan
+            to='/add-to-plan'>
+            Add To Plan
           </NavLink>
           <div className='header-nav-underline' />
         </li>

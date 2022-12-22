@@ -5,15 +5,20 @@ import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './firebaseConfig';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useUserContext } from '../../context';
+import { useNavigate } from 'react-router-dom';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 const LogIn = () => {
+  // State
   const { setUser } = useUserContext();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  // Navigate Hook
+  const navigate = useNavigate();
 
+  // Handle Log In
   const handleSubmit = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -23,10 +28,15 @@ const LogIn = () => {
           .then(async (res) => {
             const response = await res.json();
             const username = response.username;
+            // Set User to use context
             setUser({ id: userInfo.uid, username: username });
           })
           .catch((error) => {
             console.log(error);
+          })
+          .finally(() => {
+            // Navigate Home
+            navigate('/');
           });
       })
       .catch((error) => {

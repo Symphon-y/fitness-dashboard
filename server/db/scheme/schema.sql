@@ -32,6 +32,29 @@ CREATE TABLE lift (
   compound_or_isolation VARCHAR(500)
 );
 
+-- User Lifts --
+CREATE TABLE user_lifts (
+  id VARCHAR(500) UNIQUE,
+  user_id VARCHAR(500),
+  lift_id INTEGER,
+  orm  smallint,
+  selected_days TEXT [],
+  FOREIGN KEY (lift_id) REFERENCES lift (id),
+  FOREIGN KEY (user_id) REFERENCES user_table (uid)
+);
+
+-- Lift Progress --
+CREATE TABLE lift_progress (
+  id VARCHAR(500) UNIQUE,
+  user_id VARCHAR(500),
+  lift_id INTEGER,
+  target_met BOOLEAN,
+  target_stage SMALLINT,
+  days_missed SMALLINT,
+  FOREIGN KEY (lift_id) REFERENCES lift (id),
+  FOREIGN KEY (user_id) REFERENCES user_table (uid)
+);
+
 -- Lift Entry --
 CREATE TABLE lift_entry (
   id SERIAL PRIMARY KEY,

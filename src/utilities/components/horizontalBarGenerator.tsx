@@ -1,5 +1,5 @@
-import { barChartTestData, testDataObjectInterface } from '../assets';
-import { ProgressBars } from '../components';
+import { barChartTestData, testDataObjectInterface } from '../../assets';
+import { ProgressBars } from '../../components';
 
 const horizontalBarGenerator = (
   data?: testDataObjectInterface | { [key: string]: {} }

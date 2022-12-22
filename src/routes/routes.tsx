@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import { Home } from '../components';
 import { LogIn, SignUp } from '../components/Authentication';
+import CreateLift from '../components/CreateLift/CreateLift';
 import { Exercise } from '../components/Exercise';
 
 export const routes = createBrowserRouter([
@@ -17,6 +18,10 @@ export const routes = createBrowserRouter([
       {
         path: '/exercise',
         element: <Exercise />,
+      },
+      {
+        path: '/add-to-plan',
+        element: <CreateLift />,
       },
       {
         path: '/signup',
