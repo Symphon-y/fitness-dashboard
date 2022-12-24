@@ -1,4 +1,4 @@
-export interface LiftListInterface {
+interface LiftListInterface {
   id: string;
   user_id: string;
   lift_id: number;
@@ -7,7 +7,7 @@ export interface LiftListInterface {
   progress: number;
 }
 
-export type LiftListType = {
+type LiftListType = {
   [lift_id: string]: LiftListInterface;
 };
 

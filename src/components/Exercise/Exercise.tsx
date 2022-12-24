@@ -1,13 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { contentFade } from '../../animations/index';
 import { useUserContext } from '../../context';
 import { weekDays } from '../../assets';
-import './exercise.scss';
-import { AvailableLifts, LiftObjectType } from '../../types/commonTypes';
-import { getAvailableLifts, getUserLifts } from '../../utilities';
-import { getLatestLifts } from '../../utilities/functions/getLatestLifts';
+import { AvailableLifts } from '../../types/commonTypes';
 import { getLiftProgress } from '../../utilities/functions/getLiftProgress';
+import {
+  getAvailableLifts,
+  getUserLifts,
+  getLatestLifts,
+} from '../../utilities';
+import './exercise.scss';
 
 export interface LiftListInterface {
   id: string;
@@ -42,7 +45,7 @@ const Exercise = () => {
       Available Lifts,
       User Selected Lifts for current day,
       Most Recent Lift History For Todays Lifts,
-      and Progress Information for Todays Lifts
+      and Progression Information for Todays Lifts
     */
     setIsLoading(true);
     getAvailableLifts(setAvailableLifts)
@@ -55,11 +58,11 @@ const Exercise = () => {
           });
         });
       })
-      .catch((err) => {
-        console.log(err);
-      })
       .finally(() => {
         setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, [today, userId]);
 
