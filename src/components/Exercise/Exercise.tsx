@@ -1,21 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { contentFade } from '../../animations/index';
 import { useUserContext } from '../../context';
-import { useImmer } from 'use-immer';
-import {
-  getAvailableLifts,
-  getLiftData,
-  getTodaysLifts,
-} from '../../utilities';
 import { weekDays } from '../../assets';
 import './exercise.scss';
 import { AvailableLifts, LiftObjectType } from '../../types/commonTypes';
-import { callback } from 'chart.js/dist/helpers/helpers.core';
-import {
-  getLatestLifts,
-  LiftListType,
-} from '../../utilities/functions/getLatestLifts';
+import { getAvailableLifts, getUserLifts } from '../../utilities';
+import { getLatestLifts } from '../../utilities/functions/getLatestLifts';
+import { getLiftProgress } from '../../utilities/functions/getLiftProgress';
+
+export interface LiftListInterface {
+  id: string;
+  user_id: string;
+  lift_id: number;
+  orm: number;
+  selected_days: string[];
+  progress: number;
+}
+
+export type LiftListType = {
+  [lift_id: string]: LiftListInterface;
+};
 
 const Exercise = () => {
   // Hooks
@@ -26,87 +31,39 @@ const Exercise = () => {
   const [liftList, setLiftList] = useState<LiftListType>({});
   const [prevHistory, setPrevHistory] = useState();
   const [progress, setProgress] = useState({});
+  const [todaysLifts, setTodaysLifts] = useState();
+
   // Const
   const userName = user.user.username || 'you should log in!';
   const userId = user.user.id || 'no user id found';
+
   useEffect(() => {
+    /* //NOTE - Gets
+      Available Lifts,
+      User Selected Lifts for current day,
+      Most Recent Lift History For Todays Lifts,
+      and Progress Information for Todays Lifts
+    */
     setIsLoading(true);
-    let availableLiftsFormatted = {} as AvailableLifts;
-    fetch(`/available-lifts`)
-      .then((res: any) => {
-        const response = res.json();
-        // iterate over array
-        return response;
-      })
-      .then((res) => {
-        res.forEach((liftObject: LiftObjectType) => {
-          let id = liftObject.id;
-          availableLiftsFormatted[id] = { ...liftObject };
+    getAvailableLifts(setAvailableLifts)
+      .then(async () => {
+        getUserLifts(userId, today).then((lifts) => {
+          setLiftList(lifts);
+          getLatestLifts(lifts, userId).then((latestLiftsFormatted) => {
+            setPrevHistory(latestLiftsFormatted);
+            getLiftProgress(lifts, userId, setProgress);
+          });
         });
       })
-      .then(async () => {
-        setAvailableLifts(availableLiftsFormatted);
-        let todaysLifts = {} as LiftListType;
-        fetch(`/user-lifts/${userId}`)
-          .then(async (res) => {
-            const response = await res.json();
-            response.forEach((lift: any) => {
-              lift.selected_days.forEach((day: string) => {
-                if (day === today) {
-                  todaysLifts[lift.lift_id] = { ...lift };
-                }
-              });
-            });
-            return todaysLifts;
-          })
-          .then((lifts) => {
-            setLiftList(lifts);
-            let latestLiftsFormatted: any;
-            latestLiftsFormatted = {};
-            const liftListKeys = Object.keys(lifts);
-            liftListKeys.forEach((liftId: string) => {
-              fetch(`/latest-lift/${userId}/${liftId}`)
-                .then(async (res) => {
-                  const response = await res.json();
-                  latestLiftsFormatted[liftId] = response;
-                })
-                .then(() => {
-                  setPrevHistory(latestLiftsFormatted);
-                  var liftListKeys = Object.keys(lifts);
-                  liftListKeys.forEach((lift) => {
-                    let liftId = `${userId}${lift}`;
-                    fetch(`/lift_progress/${liftId}`)
-                      .then((res) => {
-                        const response = res.json();
-                        return response;
-                      })
-                      .then((res) => {
-                        setProgress((progress) => ({
-                          ...progress,
-                          [lift]: { ...res },
-                        }));
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                      });
-                  });
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
       })
       .finally(() => {
         setIsLoading(false);
       });
   }, [today, userId]);
+
+  useEffect(() => {}, []);
 
   return (
     <motion.div {...contentFade} className='excersize-container'>

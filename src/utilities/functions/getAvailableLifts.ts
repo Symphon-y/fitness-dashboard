@@ -1,27 +1,20 @@
 import { AvailableLifts, LiftObjectType } from './../../types/commonTypes';
 
-export const getAvailableLifts = async (
-  setAvailableLifts: any,
-  callback: any
-) => {
+export const getAvailableLifts = async (setAvailableLifts: any) => {
   let availableLiftsFormatted = {} as AvailableLifts;
-  return await fetch(`/available-lifts`)
-    .then(async (res) => {
-      const response = await res.json();
+  return fetch(`/available-lifts`)
+    .then((res: any) => {
+      const response = res.json();
       // iterate over array
-      response.forEach((liftObject: LiftObjectType) => {
+      return response;
+    })
+    .then((res) => {
+      res.forEach((liftObject: LiftObjectType) => {
         let id = liftObject.id;
         availableLiftsFormatted[id] = { ...liftObject };
       });
     })
-    .catch((error) => {
-      console.log(error);
-    })
     .then(() => {
       setAvailableLifts(availableLiftsFormatted);
-    })
-    .finally(() => {
-      console.log('get available lifts: finally');
-      return callback();
     });
 };
