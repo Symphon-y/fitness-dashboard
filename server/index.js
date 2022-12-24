@@ -75,6 +75,21 @@ app.get('/user-lifts/:id', (req, res, next) => {
   );
 });
 
+// Get a users lift progress based on liftprogress id
+app.get('/lift_progress/:lift_id', (req, res, next) => {
+  db.query(
+    'SELECT * FROM lift_progress WHERE LOWER(id)=LOWER($1)',
+    [req.params.lift_id],
+    (err, result) => {
+      if (err) {
+        return next(err);
+      }
+      res.send(JSON.stringify(result.rows));
+    }
+  );
+});
+
+// Get  a users lift history for selected lift
 app.get('/latest-lift/:id/:lift_id', (req, res, next) => {
   db.query(
     'SELECT * FROM lift_entry WHERE LOWER(user_id)=LOWER($1) AND lift_id=($2) ORDER BY created_at DESC LIMIT 1',

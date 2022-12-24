@@ -25,10 +25,10 @@ const Exercise = () => {
   const [today, setToday] = useState(weekDays[new Date().getDay()]);
   const [liftList, setLiftList] = useState<LiftListType>({});
   const [prevHistory, setPrevHistory] = useState();
+  const [progress, setProgress] = useState({});
   // Const
   const userName = user.user.username || 'you should log in!';
   const userId = user.user.id || 'no user id found';
-
   useEffect(() => {
     setIsLoading(true);
     let availableLiftsFormatted = {} as AvailableLifts;
@@ -36,65 +36,77 @@ const Exercise = () => {
       .then((res: any) => {
         const response = res.json();
         // iterate over array
-        response.forEach((liftObject: LiftObjectType) => {
+        return response;
+      })
+      .then((res) => {
+        res.forEach((liftObject: LiftObjectType) => {
           let id = liftObject.id;
           availableLiftsFormatted[id] = { ...liftObject };
         });
       })
+      .then(async () => {
+        setAvailableLifts(availableLiftsFormatted);
+        let todaysLifts = {} as LiftListType;
+        fetch(`/user-lifts/${userId}`)
+          .then(async (res) => {
+            const response = await res.json();
+            response.forEach((lift: any) => {
+              lift.selected_days.forEach((day: string) => {
+                if (day === today) {
+                  todaysLifts[lift.lift_id] = { ...lift };
+                }
+              });
+            });
+            return todaysLifts;
+          })
+          .then((lifts) => {
+            setLiftList(lifts);
+            let latestLiftsFormatted: any;
+            latestLiftsFormatted = {};
+            const liftListKeys = Object.keys(lifts);
+            liftListKeys.forEach((liftId: string) => {
+              fetch(`/latest-lift/${userId}/${liftId}`)
+                .then(async (res) => {
+                  const response = await res.json();
+                  latestLiftsFormatted[liftId] = response;
+                })
+                .then(() => {
+                  setPrevHistory(latestLiftsFormatted);
+                  var liftListKeys = Object.keys(lifts);
+                  liftListKeys.forEach((lift) => {
+                    let liftId = `${userId}${lift}`;
+                    fetch(`/lift_progress/${liftId}`)
+                      .then((res) => {
+                        const response = res.json();
+                        return response;
+                      })
+                      .then((res) => {
+                        setProgress((progress) => ({
+                          ...progress,
+                          [lift]: { ...res },
+                        }));
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                      });
+                  });
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
       .catch((error) => {
         console.log(error);
       })
-      .then(async () => {
-        setAvailableLifts(availableLiftsFormatted);
-      })
-      .finally(() => {});
-  }, [today, userId]);
-
-  useEffect(() => {
-    if (isLoading) {
-      let todaysLifts = {} as LiftListType;
-      fetch(`/user-lifts/${userId}`)
-        .then(async (res) => {
-          const response = await res.json();
-          response.forEach((lift: any) => {
-            lift.selected_days.forEach((day: string) => {
-              if (day === today) {
-                //TODO Remove the hardcoded progress and make this an API call
-                todaysLifts[lift.lift_id] = { ...lift, progress: 0 };
-              }
-            });
-          });
-        })
-        .then(() => {
-          setLiftList(todaysLifts);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, [isLoading, availableLifts, today, userId]);
-
-  useEffect(() => {
-    if (isLoading) {
-      let latestLiftsFormatted: any;
-      latestLiftsFormatted = {};
-      const liftListKeys = Object.keys(liftList);
-      liftListKeys.forEach((liftId: string) => {
-        fetch(`/latest-lift/${userId}/${liftId}`)
-          .then(async (res) => {
-            const response = await res.json();
-            latestLiftsFormatted[liftId] = response;
-          })
-          .then(() => {
-            console.log();
-            setPrevHistory(latestLiftsFormatted);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+      .finally(() => {
+        setIsLoading(false);
       });
-    }
-  }, [liftList, isLoading, userId]);
+  }, [today, userId]);
 
   return (
     <motion.div {...contentFade} className='excersize-container'>
