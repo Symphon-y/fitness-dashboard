@@ -26,27 +26,31 @@ export type LiftListType = {
 };
 
 const Exercise = () => {
-  // Hooks
-  const user = useUserContext();
+  //SECTION - Hooks
+  // Loading State
   const [isLoading, setIsLoading] = useState(false);
+  // All Available Lifts
   const [availableLifts, setAvailableLifts] = useState<AvailableLifts>({});
+  // Day of the week //TODO - extract this to a hook that automatically updates
   const [today, setToday] = useState(weekDays[new Date().getDay()]);
+
+  //SECTION - Today's Lift Information
+  // List of Todays Lifts
   const [liftList, setLiftList] = useState<LiftListType>({});
+  // Most Recent Lift History
   const [prevHistory, setPrevHistory] = useState();
+  // Progression History for Today's Lifts
   const [progress, setProgress] = useState({});
+  // Calculated Lift Targets for Today's Workout
   const [todaysLifts, setTodaysLifts] = useState();
 
-  // Const
+  // User Context
+  const user = useUserContext();
   const userName = user.user.username || 'you should log in!';
   const userId = user.user.id || 'no user id found';
 
   useEffect(() => {
-    /* //NOTE - Gets
-      Available Lifts,
-      User Selected Lifts for current day,
-      Most Recent Lift History For Todays Lifts,
-      and Progression Information for Todays Lifts
-    */
+    //NOTE - Gets Lift Information
     setIsLoading(true);
     getAvailableLifts(setAvailableLifts)
       .then(async () => {
@@ -66,7 +70,9 @@ const Exercise = () => {
       });
   }, [today, userId]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    //NOTE - Calculates Todays' Lifts
+  }, []);
 
   return (
     <motion.div {...contentFade} className='excersize-container'>
