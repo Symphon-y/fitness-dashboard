@@ -75,6 +75,31 @@ app.get('/user-lifts/:id', (req, res, next) => {
   );
 });
 
+app.get('/todays-lift-progress/:id/:lift_list', (req, res, next) => {
+  let resultObject = {};
+  const conditions = req.params.lift_list.split(',');
+  db.query(
+    'SELECT * FROM lift_progress WHERE user_id = $1',
+    [req.params.id],
+    (err, result) => {
+      if (err) {
+        return next(err);
+      }
+      // console.log(result.rows);
+      conditions.forEach((todaysLift, index) => {
+        result.rows.forEach((lift, index) => {
+          // const liftId = Number(lift.lift_id);
+          // console.log(index);
+          if (Number(lift.lift_id) === Number(todaysLift)) {
+            resultObject[lift.lift_id] = lift;
+          }
+        });
+      });
+      res.send(JSON.stringify(result.rows));
+    }
+  );
+});
+
 // Get a users lift progress based on liftprogress id
 app.get('/lift_progress/:lift_id', (req, res, next) => {
   db.query(

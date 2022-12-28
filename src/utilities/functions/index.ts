@@ -6,3 +6,4 @@ export * from './getTodaysLifts';
 export * from './getUserLifts';
 export * from './getLatestLifts';
 export * from './getLiftProgress';
+export * from './roundNearestFive';

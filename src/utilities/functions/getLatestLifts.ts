@@ -1,3 +1,5 @@
+import { LiftEntryType } from '../../types/commonTypes';
+
 interface LiftListInterface {
   id: string;
   user_id: string;
@@ -12,7 +14,7 @@ type LiftListType = {
 };
 
 export const getLatestLifts = async (lifts: any, userId: any) => {
-  let latestLiftsFormatted: any;
+  let latestLiftsFormatted: LiftEntryType;
   latestLiftsFormatted = {};
   const liftListKeys = Object.keys(lifts);
   liftListKeys.forEach((liftId: string) => {
