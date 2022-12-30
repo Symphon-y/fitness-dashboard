@@ -1,16 +1,27 @@
+import { LiftProgressType } from '../../components/Exercise/Exercise';
+
+interface FormattedType {
+  [id: string]: LiftProgressType;
+}
+
 export const getLiftProgress = async (
   lifts: any,
   userId: any,
   setProgress: any
 ) => {
+  let formatted = {} as FormattedType;
   const liftListKeys = Object.keys(lifts);
-  let liftProg = {};
   return fetch(`/todays-lift-progress/${userId}/${liftListKeys}`)
     .then((res) => {
-      const response = res.json();
+      const response: any = res.json();
+      console.log(response);
+
       return response;
     })
     .then((res) => {
-      setProgress(res);
+      res.forEach((lift: any) => {
+        formatted[lift.lift_id] = lift;
+      });
+      setProgress(formatted);
     });
 };

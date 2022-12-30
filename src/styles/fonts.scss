@@ -1,49 +1,53 @@
 // Manrope - ExtraLight
 @font-face {
-  font-family: 'Manrope';
+  font-family: 'Manrope Extra Light';
   src: url('../../public/assets/fonts/Manrope/Manrope-ExtraLight.ttf');
   font-weight: 200;
 }
 
 // Manrope - Light
 @font-face {
-  font-family: 'Manrope';
+  font-family: 'Manrope Light';
   src: url('../../public/assets/fonts/Manrope/Manrope-Light.ttf');
   font-weight: 300;
 }
 
 // Manrope - Regular
 @font-face {
-  font-family: 'Manrope';
+  font-family: 'Manrope Regular';
   src: url('../../public/assets/fonts/Manrope/Manrope-Regular.ttf');
   font-weight: 400;
 }
 
 // Manrope - Medium
 @font-face {
-  font-family: 'Manrope';
+  font-family: 'Manrope Medium';
   src: url('../../public/assets/fonts/Manrope/Manrope-Medium.ttf');
   font-weight: 500;
 }
 
 // Manrope - Semi Bold
 @font-face {
-  font-family: 'Manrope';
+  font-family: 'Manrope SemiBold';
   src: url('../../public/assets/fonts/Manrope/Manrope-SemiBold.ttf');
   font-weight: 600;
 }
 
 // Manrope - Bold
 @font-face {
-  font-family: 'Manrope';
+  font-family: 'Manrope Bold';
   src: url('../../public/assets/fonts/Manrope/Manrope-Bold.ttf');
   font-weight: 700;
 }
 
 // Manrope - Extra Bold
 @font-face {
-  font-family: 'Manrope';
-  src: url('../../public/assets/fonts/Manrope/Manrope-Medium.ttf');
+  font-family: 'Manrope Extra Bold';
+  src: url('../../public/assets/fonts/Manrope/Manrope-ExtraBold.ttf');
   font-weight: 800;
 }
 
+$font-primary-regular: 'Manrope Regular';
+$font-primary-bold: 'Manrope Bold';
+$font-primary-extra-bold: 'Manrope Extra Bold';
+$font-primary-semi-bold: 'Manrope SemiBold';

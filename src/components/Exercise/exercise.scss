@@ -1,7 +1,47 @@
-.excersize-container {
+@use'../../styles/fonts';
+
+
+.exercise-main-content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.exercise-container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   height: 100vh;
+  margin-left: 2rem;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 13px 0px;
+  gap: 10px;
+
+  width: 100%;
+  height: 123px;
+}
+
+.header-title {
+  font-family: fonts.$font-primary-semi-bold;
+  font-size: 48px;
+  line-height: 66px;
+  display: flex;
+  align-items: center;
+}
+
+.exercise-card-container-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  height: 100%;
+  align-items: flex-start;
 }

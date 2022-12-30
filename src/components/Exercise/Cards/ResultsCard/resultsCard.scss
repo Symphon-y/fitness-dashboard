@@ -1,0 +1,71 @@
+@use'../../../../styles/fonts';
+
+.results-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px;
+  gap: 3rem;
+
+  width: 18rem;
+  height: 15rem;
+
+  background: #323538;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.results-rep-count-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #fff;
+  font-family: Manrope Extra Bold;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 44px;
+  width: 100%;
+  justify-content: space-between;
+
+}
+
+.rep-counter {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.results-next-btn {
+  align-self: flex-end;
+  box-sizing: border-box;
+  cursor: pointer;
+  /* Auto layout */
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+
+  width: 114px;
+  height: 32px;
+
+  border: 0.5px solid #FFFFFF;
+  border-radius: 10px;
+}
+
+.rep-counter-btns{
+ cursor: pointer;
+}
+
+.rep-counter-count {
+  width: 2rem;
+}

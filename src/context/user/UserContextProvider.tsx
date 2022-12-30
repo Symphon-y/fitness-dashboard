@@ -1,4 +1,4 @@
-import React, { useMemo, createContext } from 'react';
+import React, { useMemo, createContext, useEffect } from 'react';
 import { useContext } from 'react';
 import { User } from '../../types/commonTypes';
 
@@ -21,7 +21,13 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
     id: '0',
     username: 'unknown user',
   });
-
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem('user');
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
+    }
+  }, []);
   const value = useMemo(
     () => ({
       user,

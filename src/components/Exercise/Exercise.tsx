@@ -17,6 +17,12 @@ import {
 } from '../../utilities';
 import './exercise.scss';
 import { useImmer } from 'use-immer';
+import {
+  PlateCalculatorCard,
+  ResultsCard,
+  WarmUpCard,
+  WorkingSetCard,
+} from './Cards';
 
 export interface LiftProgress {
   id: string;
@@ -62,7 +68,8 @@ const Exercise = () => {
   // Progression History for Today's Lifts
   const [progress, setProgress] = useState<LiftProgressType>({});
   // Calculated Lift Targets for Today's Workout
-  const [todaysLifts, setTodaysLifts] = useImmer<LiftEntryType>({});
+  const [todaysLifts, setTodaysLifts] = useImmer<any>({});
+  const [todaysResults, setTodaysResults] = useImmer<LiftEntryType>({});
 
   //SECTION - Current Lift State
   // Current Lift index from todaysLifts
@@ -129,7 +136,13 @@ const Exercise = () => {
       setIsLoading(true);
       keys.forEach((key) => {
         // check progress
-        const targetStage = progress[key].target_stage;
+        let targetStage = progress[key].target_stage;
+
+        // progress.forEach((lift) => {
+        //   if (lift.lift_id === key) {
+        //     targetStage = lift.target_stage;
+        //   }
+        // });
         switch (targetStage) {
           // if 0
           case 0:
@@ -137,6 +150,7 @@ const Exercise = () => {
             const heaviestWeight = roundNearestFive(orm * 0.9);
             const middleWeight = roundNearestFive(orm * 0.8);
             const lightestWeight = roundNearestFive(orm * 0.7);
+
             const warmupOne = roundNearestFive(heaviestWeight * 0.6);
             const warmupTwo = roundNearestFive(heaviestWeight * 0.75);
             const warmupThree = roundNearestFive(heaviestWeight * 0.9);
@@ -153,11 +167,11 @@ const Exercise = () => {
                 wu_reps_2: wu_reps_2,
                 wu_weight_3: warmupThree,
                 wu_reps_3: wu_reps_3,
-                ws_weight_1: lightestWeight,
+                ws_weight_1: heaviestWeight,
                 ws_reps_1: ws_reps_1,
                 ws_weight_2: middleWeight,
                 ws_reps_2: ws_reps_2,
-                ws_weight_3: heaviestWeight,
+                ws_weight_3: lightestWeight,
                 ws_reps_3: ws_reps_3,
               },
             };
@@ -201,9 +215,26 @@ const Exercise = () => {
     if (liftListKeyArray) {
       setCurrentLift(liftListKeyArray[liftListKeyArrayIndex]);
     }
+    console.log(liftListKeyArray);
     setTodaysLifts(formattedResult);
+    setTodaysResults(formattedResult);
     setIsLoading(false);
   }, [progress]);
+  const [currentWeight, setCurrentWeight] = useState();
+  const todaysWeightArray = [
+    'wu_weight_1',
+    'wu_weight_2',
+    'wu_weight_3',
+    'ws_weight_1',
+    'ws_weight_2',
+    'ws_weight_3',
+  ];
+  useEffect(() => {
+    if (currentLift && Object.keys(todaysLifts).length > 0) {
+      let newWeight = todaysLifts[currentLift][todaysWeightArray[currentSet]];
+      setCurrentWeight(newWeight);
+    }
+  }, [todaysLifts, currentSet]);
 
   //SECTION Lift Information
   let liftName = currentLift
@@ -249,100 +280,48 @@ const Exercise = () => {
     : 'loading...';
 
   return (
-    <motion.div {...contentFade} className='excersize-container'>
+    <motion.div {...contentFade} className='exercise-container'>
       <div className='header-content'>
-        <div>
-          <h3>Hi, {userName}</h3>
-        </div>
-        <h1>{`Lift: ${liftName}`}</h1>
+        <h1 className='header-title'>{`Lift: ${liftName}`}</h1>
         <p>Day: {today}</p>
       </div>
-      <div className='excersize-main-content'>
+      <div className='exercise-main-content'>
         {currentLift ? (
           //SECTION Target Lift Cards
           //TODO extract this to a seperate component
-          <motion.div {...contentFade}>
-            <div>
-              <div>
-                <div>Warmup</div>
-                <div>targets</div>
-                <div>
-                  {wuWeightOne} x {wuRepsOne}
-                </div>
-                <div>
-                  {wuWeightTwo} x {wuRepsTwo}
-                </div>
-                <div>
-                  {wuWeightThree} x {wuRepsThree}
-                </div>
-              </div>
-            </div>
-            <div>
-              <div>
-                <div>Working Sets</div>
-                <div>targets</div>
-                <div>
-                  {wsWeightOne} x {wsRepsOne}
-                </div>
-                <div>
-                  {wsWeightTwo} x {wsRepsTwo}
-                </div>
-                <div>
-                  {wsWeightThree} x {wsRepsThree}
-                </div>
-              </div>
-            </div>
+          <motion.div className='exercise-card-container-main' {...contentFade}>
+            <WarmUpCard
+              wuWeightOne={wuWeightOne}
+              wuRepsOne={wuRepsOne}
+              wuWeightTwo={wuWeightTwo}
+              wuRepsTwo={wuRepsTwo}
+              wuWeightThree={wuWeightThree}
+              wuRepsThree={wuRepsThree}
+            />
+            <WorkingSetCard
+              wsWeightOne={wsWeightOne}
+              wsRepsOne={wsRepsOne}
+              wsWeightTwo={wsWeightTwo}
+              wsRepsTwo={wsRepsTwo}
+              wsWeightThree={wsWeightThree}
+              wsRepsThree={wsRepsThree}
+            />
           </motion.div>
         ) : null}
-        <motion.div {...contentFade}>
-          <div>
-            <div>Current Set</div>
-            <div>{repKeyArray[currentSet][1]}</div>
-            <div>
-              <div
-                onClick={() => {
-                  if (repCount > 0) {
-                    const newCount = repCount - 1;
-                    setRepCount(newCount);
-                  }
-                }}>
-                {' '}
-                -{' '}
-              </div>
-              <div>Reps {repCount} </div>
-              <div
-                onClick={() => {
-                  const newCount = repCount + 1;
-                  setRepCount(newCount);
-                }}>
-                {' '}
-                +{' '}
-              </div>
-            </div>
-            <button
-              onClick={(e) => {
-                //TODO set reps in state
-                const repKey = repKeyArray[currentSet][0];
-                if (currentLift) {
-                  setTodaysLifts((draftState: any) => {
-                    draftState[currentLift][repKey] = repCount;
-                  });
-                }
-
-                const nextSet =
-                  currentSet < repKeyArray.length - 1 ? currentSet + 1 : 0;
-
-                if (currentSet === repKeyArray.length - 1 && liftListKeyArray) {
-                  const nextLift = liftListKeyArrayIndex + 1;
-                  setCurrentLift(liftListKeyArray[nextLift]);
-                }
-
-                setCurrentSet(nextSet);
-                setRepCount(0);
-              }}>
-              next
-            </button>
-          </div>
+        <motion.div className='exercise-card-container-main' {...contentFade}>
+          <ResultsCard
+            repKeyArray={repKeyArray}
+            currentSet={currentSet}
+            repCount={repCount}
+            setRepCount={setRepCount}
+            currentLift={currentLift}
+            setTodaysResults={setTodaysResults}
+            liftListKeyArray={liftListKeyArray}
+            liftListKeyArrayIndex={liftListKeyArrayIndex}
+            setCurrentLift={setCurrentLift}
+            setCurrentSet={setCurrentSet}
+          />
+          <PlateCalculatorCard currentWeight={currentWeight} />
         </motion.div>
       </div>
     </motion.div>

@@ -1,0 +1,79 @@
+@use'../../../styles/fonts';
+@use'../../../styles/colors';
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px;
+  gap: 10px;
+
+  width: 18rem;
+  height: 15rem;
+
+  background: colors.$primary-color;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.card-header-container {
+  display: flex;
+  gap: 10px;
+  order: 0;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.card-header {
+  color: #fff;
+  display: flex;
+  flex-grow: 1;
+  font-family: fonts.$font-primary-bold;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  height: 30px;
+  line-height: 30px;
+  order: 0;
+  width: 283px;
+  flex-direction: row;
+  align-self: flex-start;
+}
+
+.card-subtitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: center;
+  width: 100%;
+
+
+  font-family: fonts.$font-primary-bold;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.card-data-container {
+
+  font-family: fonts.$font-primary-extra-bold;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 32px;
+  line-height: 44px;
+  /* identical to box height */
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+
+  color: #FFFFFF;
+}

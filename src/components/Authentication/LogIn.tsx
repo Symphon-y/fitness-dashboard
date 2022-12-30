@@ -28,6 +28,10 @@ const LogIn = () => {
           .then(async (res) => {
             const response = await res.json();
             const username = response.username;
+            localStorage.setItem(
+              'user',
+              JSON.stringify({ id: userInfo.uid, username: username })
+            );
             // Set User to use context
             setUser({ id: userInfo.uid, username: username });
           })
