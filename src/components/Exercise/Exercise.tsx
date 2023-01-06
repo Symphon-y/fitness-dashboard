@@ -23,6 +23,8 @@ import {
   WarmUpCard,
   WorkingSetCard,
 } from './Cards';
+import CountDown from './Cards/PlateCalculatorCard/PlateGenerator/CountDown/CountDown';
+import { DateTime } from 'luxon';
 
 export interface LiftProgress {
   id: string;
@@ -49,6 +51,8 @@ export type LiftListType = {
 };
 
 const Exercise = () => {
+  var dt = DateTime.now();
+
   //SECTION - Hooks
   // Loading State
   const [isLoading, setIsLoading] = useState(false);
@@ -90,7 +94,6 @@ const Exercise = () => {
     ['ws_reps_2', 'Working Set 2'],
     ['ws_reps_3', 'Working Set 3'],
   ];
-
   // User Context
   const user = useUserContext();
   const userName = user.user.username || 'you should log in!';
@@ -138,11 +141,6 @@ const Exercise = () => {
         // check progress
         let targetStage = progress[key].target_stage;
 
-        // progress.forEach((lift) => {
-        //   if (lift.lift_id === key) {
-        //     targetStage = lift.target_stage;
-        //   }
-        // });
         switch (targetStage) {
           // if 0
           case 0:
@@ -160,7 +158,7 @@ const Exercise = () => {
               [key]: {
                 lift_id: key,
                 user_id: userId,
-                created_at: new Date(),
+                created_at: dt.toFormat("yyyy'-'LL'-'dd HH':'MM':'ss"), //2022-09-25 00:00:00
                 wu_weight_1: warmupOne,
                 wu_reps_1: wu_reps_1,
                 wu_weight_2: warmupTwo,
@@ -315,9 +313,11 @@ const Exercise = () => {
             repCount={repCount}
             setRepCount={setRepCount}
             currentLift={currentLift}
+            todaysResults={todaysResults}
             setTodaysResults={setTodaysResults}
             liftListKeyArray={liftListKeyArray}
             liftListKeyArrayIndex={liftListKeyArrayIndex}
+            setLiftListKeyArrayIndex={setLiftListKeyArrayIndex}
             setCurrentLift={setCurrentLift}
             setCurrentSet={setCurrentSet}
           />

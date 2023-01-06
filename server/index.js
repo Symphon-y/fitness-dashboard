@@ -20,6 +20,39 @@ app.use((req, res, next) => {
   next();
 });
 
+app.post('/lift-entry', (req, res, next) => {
+  const keys = Object.keys(req.body);
+  keys.forEach((key) => {
+    const body = req.body[key];
+    db.query(
+      'INSERT INTO lift_entry(lift_id, user_id, created_at, wu_weight_1, wu_reps_1, wu_weight_2, wu_reps_2, wu_weight_3, wu_reps_3, ws_weight_1, ws_reps_1, ws_weight_2, ws_reps_2, ws_weight_3, ws_reps_3) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)',
+      [
+        body.lift_id,
+        body.user_id,
+        body.created_at,
+        body.wu_weight_1,
+        body.wu_reps_1,
+        body.wu_weight_2,
+        body.wu_reps_2,
+        body.wu_weight_3,
+        body.wu_reps_3,
+        body.ws_weight_1,
+        body.ws_reps_1,
+        body.ws_weight_2,
+        body.ws_reps_2,
+        body.ws_weight_3,
+        body.ws_reps_3,
+      ],
+      (err, result) => {
+        if (err) {
+          return next(err);
+        }
+      }
+    );
+  });
+  res.send('success');
+});
+
 // Update or Create User Lift Entry
 app.post('/user-lifts', (req, res, next) => {
   db.query(
@@ -114,7 +147,7 @@ app.get('/lift_progress/:lift_id', (req, res, next) => {
   );
 });
 
-// Get  a users lift history for selected lift
+// Get  a users latest-lift for selected lift
 app.get('/latest-lift/:id/:lift_id', (req, res, next) => {
   db.query(
     'SELECT * FROM lift_entry WHERE LOWER(user_id)=LOWER($1) AND lift_id=($2) ORDER BY created_at DESC LIMIT 1',
@@ -164,6 +197,7 @@ app.get('/:id', (req, res, next) => {
 
 // Get lift history by user id and lift id
 app.get('/lifts/:id/:lift_id', (req, res, next) => {
+  console.log(req.params.id, req.params.lift_id);
   db.query(
     'SELECT * FROM lift_entry WHERE LOWER(user_id)=LOWER($1) AND lift_id=($2) ORDER BY created_at ASC',
     [req.params.id, req.params.lift_id],
@@ -171,6 +205,7 @@ app.get('/lifts/:id/:lift_id', (req, res, next) => {
       if (err) {
         return next(err);
       }
+      console.log(result.rows);
       res.send(JSON.stringify(result.rows));
     }
   );

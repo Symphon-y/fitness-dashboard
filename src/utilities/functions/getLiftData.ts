@@ -17,6 +17,7 @@ export const getLiftData = async (
           draft.labels.push(date);
           // add weight and reps together to get total volume
           let volumn = 0;
+          //TODO Fix this equation, currently the += is incorrect if no reps were completed should return 0 volumn
           volumn +=
             Number(item.wu_weight_1) +
             Number(item.wu_reps_1) +

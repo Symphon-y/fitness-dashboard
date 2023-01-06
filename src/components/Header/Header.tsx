@@ -56,11 +56,11 @@ const Header = () => {
               : 'header-nav-item'
           }>
           <NavLink
-            id='food-plan'
+            id='lift-history'
             onClick={(e: any) => handleClick(e)}
             className='header-nav-link'
-            to='/add-to-plan'>
-            Add To Plan
+            to='/lift-history'>
+            Lift History
           </NavLink>
           <div className='header-nav-underline' />
         </li>

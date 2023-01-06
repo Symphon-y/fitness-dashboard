@@ -5,6 +5,7 @@ import { Home } from '../components';
 import { LogIn, SignUp } from '../components/Authentication';
 import CreateLift from '../components/CreateLift/CreateLift';
 import { Exercise } from '../components/Exercise';
+import { LiftHistory } from '../components/LiftHistory';
 
 export const routes = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ export const routes = createBrowserRouter([
       {
         path: '/login',
         element: <LogIn />,
+      },
+      {
+        path: 'lift-history',
+        element: <LiftHistory />,
       },
     ],
   },

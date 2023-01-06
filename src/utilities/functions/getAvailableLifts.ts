@@ -16,5 +16,6 @@ export const getAvailableLifts = async (setAvailableLifts: any) => {
     })
     .then(() => {
       setAvailableLifts(availableLiftsFormatted);
-    });
+    })
+    .finally(() => availableLiftsFormatted);
 };
