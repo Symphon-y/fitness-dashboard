@@ -129,7 +129,7 @@ const LiftHistory = () => {
       console.log(response);
       setRows([...response]);
     });
-  }, [selectedLift]);
+  }, [userContext.user.id, selectedLift]);
   const drawOptions = () => {
     if (availableLifts) {
       const liftKeys = Object.keys(availableLifts);
